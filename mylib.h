@@ -12,5 +12,7 @@ list *oneWorldChange(list *sWorld, list *eWorld);
 void input();
 void change(list *index, list *data);
 void output(list *data);
+void clean(list *start, list *end);
+void allclean(list *start);
 
 #endif

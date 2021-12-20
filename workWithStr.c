@@ -1,18 +1,19 @@
 #include "./mylib.h"
-
-
+#include <stdlib.h>
 
 list *processed(list *data){
     list *sWorld = data;
     list *bindWorlds = data;
     int fFlag = 1;
+    list fClean;
+    fClean.prev = data;
 
     while(sWorld->prev){
         list *eWorld = sWorld;
         while ((sWorld->prev) && (sWorld->prev->letter != ' ')) sWorld = sWorld->prev;
         eWorld = oneWorldChange(sWorld, eWorld);
-        if(fFlag) data = eWorld, fFlag = 0;
-        else bindWorlds->prev = eWorld;
+        if(fFlag) clean(&(fClean), eWorld), data = eWorld, fFlag = 0;
+        else clean(bindWorlds, eWorld), bindWorlds->prev = eWorld;
         if (sWorld->prev){
             bindWorlds = sWorld->prev;
             sWorld = sWorld->prev->prev;
@@ -40,8 +41,27 @@ list *oneWorldChange(list *sWorld, list *eWorld){
     return eWorld;
 }
 
+void clean(list *start, list *end){
+    list *idx = start->prev;
+    while (idx != end){
+        list *tmp = idx;
+        idx = idx->prev;
+        free(tmp);
+    }
+}
+
+void allclean(list *start){
+    list *idx = start;
+    while(idx){
+        list *tmp = idx;
+        idx = idx->prev;
+        free(tmp);
+    }
+}
+
 void change(list *index, list *data){
     list *bind = data;
     while (bind->prev != index) bind = bind->prev;
+    free(bind->prev);
     bind->prev = bind->prev->prev;
 }

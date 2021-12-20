@@ -10,6 +10,7 @@ void input(){
         if (p == '\n'){
             idx = processed(idx);
             output(idx);
+            allclean(idx);
             idx = NULL;
             p=getchar();
             if (p == EOF) break;
